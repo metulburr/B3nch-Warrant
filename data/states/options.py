@@ -84,6 +84,7 @@ class Options(tools.States):
     def toggle_fullscreen(self):
         self.change_res = 'fullscreen'
     def set_window(self, newsize):
+        print('resolution change may require restart to take effect!!!')
         self.change_res = newsize
         db = DB.load()
         db['size'] = list(newsize)

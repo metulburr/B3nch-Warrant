@@ -10,8 +10,8 @@ class Menu(tools.States):
     def __init__(self, screen_rect):
         tools.States.__init__(self)
         self.screen_rect = screen_rect
-        self.options = ['Play', 'Options', 'Quit']
-        self.next_list = ['GAME', 'OPTIONS']
+        self.options = ['New Game', 'Options', 'Quit']
+        self.next_list = ['PART1', 'OPTIONS']
         self.pre_render_options()
         self.from_bottom = 100
         self.spacer = 35
@@ -22,9 +22,6 @@ class Menu(tools.States):
         
         self.menu_item_bg_w = 200
         self.menu_item_bg_h = 25
-        
-    def update_resolution(screen_rect):
-        self.screen_rect = screen_rect
         
     def render_cursor(self, screen):
         mouseX, mouseY = pg.mouse.get_pos()

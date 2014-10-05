@@ -1,7 +1,8 @@
 
 import os
 import pygame as pg
-from .states import menu, splash, title, game, options
+from .states import menu, splash, game, options
+from .states.new_session import part1, part2, part3, part4
 from data.tools import DB
 
 class Control():
@@ -30,9 +31,14 @@ class Control():
         self.state_dict = {
             "MENU"     : menu.Menu(self.screen_rect),
             "SPLASH"   : splash.Splash(self.screen_rect),
-            'TITLE'    : title.Title(self.screen_rect),
+            #'TITLE'    : title.Title(self.screen_rect),
             'GAME'     : game.Game(self.screen_rect),
             'OPTIONS'  : options.Options(self.screen_rect, self.default_screensize, self.fullscreen),
+            
+            'PART1'   : part1.Part1(self.screen_rect),
+            'PART2'   : part2.Part2(self.screen_rect),
+            'PART3'   : part3.Part3(self.screen_rect),
+            'PART4'   : part4.Part4(self.screen_rect),
         }
 
         self.state_name = "SPLASH"
@@ -48,6 +54,7 @@ class Control():
         if self.state.change_res:
             pg.display.quit()
             pg.display.init()
+            pg.display.set_caption(self.caption)
             if self.state.change_res == 'fullscreen':
                 if not self.fullscreen:
                     self.screen = pg.display.set_mode(self.screensize, pg.FULLSCREEN)
@@ -106,9 +113,6 @@ class Control():
             if self.state.quit:
                 self.done = True
             self.check_display_change()
-            #if self.state.change_res:
-            #    print('changing res for {}'.format(self.state_name))
-            #    self.state.update_resolution(self.screen_rect)
             self.state.screen_rect = self.screen_rect #update if changed screen resolution
             now = pg.time.get_ticks()
             self.event_loop()

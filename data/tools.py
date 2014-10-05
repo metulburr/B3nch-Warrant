@@ -90,6 +90,12 @@ class States:
         self.background_music_volume = .3
         #self.background_music = Music(self.background_music_volume)
         self.background_music = None
+        self.typing = Sound('typing.wav')
+        self.typing.sound.set_volume(.9)
+        
+        self.intro_music = Music(.9, 'playing-to-win.mp3')
+        self.intro_music.load_single()
+        
         self.bg_color = (25,25,25)
         self.timer = 0.0
         self.quit = False
