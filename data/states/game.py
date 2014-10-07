@@ -85,7 +85,6 @@ class Game(tools.States):
                     
     def update(self, now, keys):
         self.update_label()
-        print(self.street_names)
             
         if pg.time.get_ticks()-self.timer > 1000:
             self.timer = pg.time.get_ticks()
