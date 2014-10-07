@@ -93,6 +93,7 @@ class Part1(tools.States):
             self.quit = True
         elif event.type == pg.KEYDOWN:
             self.done = True
+        self.switch_track_event(event)
             
     def cleanup(self):
         self.typing.sound.stop()

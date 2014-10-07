@@ -29,6 +29,19 @@ class Part3(tools.States):
         self.blink = False
         self.blink_time = 1.0
         self.blink_timer = 0
+        
+    def enlarge_image(self):
+        self.imageW += 1
+        self.imageH += 1
+        self.image = pg.transform.scale(self.image_orig, (self.imageW,self.imageH))
+        self.image_rect = self.image.get_rect(center=self.screen_rect.center)
+        
+    def set_letter(self):
+        self.image_time = 1.0
+        self.image_timer = 0
+        self.image_index = 0
+        self.imageW = self.image_orig.get_width()
+        self.imageH = self.image_orig.get_height()
             
     def set_message(self):
         self.msg_time = 1.0
@@ -79,6 +92,10 @@ class Part3(tools.States):
                 if not self.is_typing:
                     self.typing.sound.play()
                     self.is_typing = not self.is_typing
+        if self.current_time-self.image_timer > 10/self.image_time:
+            self.image_timer = self.current_time
+            if self.imageH <= self.screen_rect.height:
+                self.enlarge_image()
             
     def render(self, screen):
         screen.fill((255,255,255))
@@ -88,13 +105,13 @@ class Part3(tools.States):
         if self.blink:
             for msg in self.rendered_text:
                 screen.blit(*msg)
-        
 
     def get_event(self,event, keys):
         if event.type == pg.QUIT:
             self.quit = True
         elif event.type == pg.KEYDOWN:
             self.done = True
+        self.switch_track_event(event)
             
     def cleanup(self):
         self.typing.sound.stop()
@@ -102,6 +119,7 @@ class Part3(tools.States):
     def entry(self):
         self.set_cover()
         self.set_message()
+        self.set_letter()
         self.set_blinker()
         self.bg = pg.transform.scale(self.image, (self.screen_rect.width, self.screen_rect.height))
         self.bg_rect = self.bg.get_rect(center=self.screen_rect.center)

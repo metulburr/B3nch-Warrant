@@ -10,7 +10,7 @@ from data.tools import DB
 DEFAULT = { 
         'fullscreen':False,
         'difficulty':'medium',
-        'size'      :(640,360),
+        'size'      :(800,600),
         'caption'   :'B3nch Warrant',
         'resizable' :False,
         'resolution_options': [(640,360), (800,600), (854,480), (1280,720)],

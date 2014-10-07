@@ -79,8 +79,7 @@ class Control():
         db = DB.load()
         db['fullscreen'] = self.fullscreen
         db['difficulty'] = self.difficulty
-        if self.state.change_res != 'fullscreen':
-            db['size']       = self.state.change_res
+        db['size']       = self.state.change_res
         db['caption']    = self.caption
         db['resizable']  = self.resizable
         DB.save(db)
@@ -104,7 +103,7 @@ class Control():
             self.state_name = self.state.next
             self.state.done = False
             self.state = self.state_dict[self.state_name]
-            self.state.screen_rect = self.screen_rect #update if changed screen resolution
+            self.state.screen_rect = self.screen.get_rect() #update if changed screen resolution
             self.state.entry()
 
 
@@ -113,7 +112,7 @@ class Control():
             if self.state.quit:
                 self.done = True
             self.check_display_change()
-            self.state.screen_rect = self.screen_rect #update if changed screen resolution
+            self.state.screen_rect = self.screen.get_rect() #update if changed screen resolution
             now = pg.time.get_ticks()
             self.event_loop()
             self.change_state()

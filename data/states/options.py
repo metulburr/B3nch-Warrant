@@ -30,6 +30,13 @@ class Options(tools.States):
         
         self.setup_buttons()
         
+        self.notice, self.notice_rect = self.make_text(
+            "Restart to apply settings correctly",
+            (255,255,255),
+            (self.screen_rect.centerx, self.screen_rect.top +25),
+            24
+        )
+        
     def setup_buttons(self):
         self.buttons = []
         
@@ -114,9 +121,7 @@ class Options(tools.States):
                 self.select_option(self.selected_index)
         for button in self.buttons:
             button.check_event(event)
-        #elif event.type == self.intro.track_end:
-        #    self.intro.track = (self.intro.track+1) % len(self.intro.tracks)
-        #    pg.mixer.music.load(self.intro.tracks[self.intro.track]) 
+        self.switch_track_event(event)
 
         self.mouse_menu_click(event)
 
@@ -131,6 +136,7 @@ class Options(tools.States):
     def render(self, screen):
         screen.fill((0,0,0))
         screen.blit(self.bg, self.bg_rect)
+        screen.blit(self.notice, self.notice_rect)
         for i,opt in enumerate(self.rendered["des"]):
             aligned_center = (self.screen_rect.centerx, self.from_bottom+i*self.spacer)
             

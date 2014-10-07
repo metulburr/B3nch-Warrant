@@ -58,6 +58,7 @@ class Title(tools.States):
             self.quit = True
         elif event.type == pg.KEYDOWN:
             self.done = True
+        self.switch_track_event(event)
             
     def cleanup(self):
         pass

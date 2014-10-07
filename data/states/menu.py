@@ -39,9 +39,7 @@ class Menu(tools.States):
                 
             elif event.key == pg.K_RETURN:
                 self.select_option(self.selected_index)
-        #elif event.type == self.intro.track_end:
-        #    self.intro.track = (self.intro.track+1) % len(self.intro.tracks)
-        #    pg.mixer.music.load(self.intro.tracks[self.intro.track]) 
+        self.switch_track_event(event)
 
         self.mouse_menu_click(event)
 

@@ -59,9 +59,12 @@ class Music:
         self.tracks = []
         self.track = 0
         
-    def load_list(self, file_list):
+    def load_list(self, file_list=None):
+        if not file_list:
+            file_list = os.listdir(self.path)
         for track in file_list:
             self.tracks.append(os.path.join(self.path, track))
+        random.shuffle(self.tracks)
         pg.mixer.music.set_volume(self.volume)
         pg.mixer.music.set_endevent(self.track_end)
         pg.mixer.music.load(self.tracks[0])
@@ -89,12 +92,14 @@ class States:
         self.button_hover.sound.set_volume(self.button_hover_volume)
         self.background_music_volume = .3
         #self.background_music = Music(self.background_music_volume)
+        self.bg_music = Music(.3)
+        self.bg_music.load_list()
         self.background_music = None
         self.typing = Sound('typing.wav')
         self.typing.sound.set_volume(.9)
         
-        self.intro_music = Music(.9, 'playing-to-win.mp3')
-        self.intro_music.load_single()
+        #self.intro_music = Music(.9, 'playing-to-win.mp3')
+        #self.intro_music.load_single()
         
         self.bg_color = (25,25,25)
         self.timer = 0.0
@@ -136,6 +141,16 @@ class States:
         self.color_options = [
             self.blue, self.red, self.green, self.yellow, self.pink, self.purple
         ]
+        
+    def load_street_names(self):
+        with open('data/names.txt') as f:
+            self.street_names = f.readlines()
+        
+    def switch_track_event(self, event):
+        if event.type == self.bg_music.track_end:
+            self.bg_music.track = (self.bg_music.track+1) % len(self.bg_music.tracks)
+            pg.mixer.music.load(self.bg_music.tracks[self.bg_music.track]) 
+            pg.mixer.music.play()
         
     def update_controller_dict(self, keyname, event):
         self.controller_dict[keyname] = event.key

@@ -3,7 +3,6 @@
 import pygame as pg
 from .. import tools
 from ..toolbox import button
-from ..components import block
 import os
 import random
 from data.tools import DB
@@ -21,13 +20,16 @@ class Game(tools.States):
         self.update_label()
 
         self.overlay_orig = pg.Surface((screen_rect.width, screen_rect.height))
-        self.overlay = pg.transform.scale(self.overlay_orig, (self.screen_rect.width, self.screen_rect.height))
-        self.overlay.fill(0)
-        self.overlay.set_alpha(255)
+        self.set_overlay()
         
         self.bg_orig = tools.Image.load('courtroom.jpg')
         self.bg = pg.transform.scale(self.bg_orig, (self.screen_rect.width, self.screen_rect.height))
         self.bg_rect = self.bg.get_rect(center=self.screen_rect.center)
+        
+    def set_overlay(self):
+        self.overlay = pg.transform.scale(self.overlay_orig, (self.screen_rect.width, self.screen_rect.height))
+        self.overlay.fill(0)
+        self.overlay.set_alpha(200)
         
     def update_label(self):
         
@@ -75,11 +77,7 @@ class Game(tools.States):
                 self.done = True
                 self.next = 'MENU'
                 
-        #elif event.type == self.bg_music.track_end:
-        #    self.bg_music.track = (self.bg_music.track+1) % len(self.bg_music.tracks)
-        #    pg.mixer.music.load(self.bg_music.tracks[self.bg_music.track]) 
-        #    pg.mixer.music.play()
-        
+        self.switch_track_event(event)
         for button in self.buttons:
             if not button.disabled:
                 button.check_event(event)
@@ -87,7 +85,7 @@ class Game(tools.States):
                     
     def update(self, now, keys):
         self.update_label()
-
+        print(self.street_names)
             
         if pg.time.get_ticks()-self.timer > 1000:
             self.timer = pg.time.get_ticks()
@@ -121,6 +119,4 @@ class Game(tools.States):
     def entry(self):
         self.bg = pg.transform.scale(self.bg_orig, (self.screen_rect.width, self.screen_rect.height))
         self.bg_rect = self.bg.get_rect(center=self.screen_rect.center)
-        self.overlay = pg.transform.scale(self.overlay_orig, (self.screen_rect.width, self.screen_rect.height))
-        self.overlay.fill(0)
-        self.overlay.set_alpha(150)
+        self.set_overlay()
